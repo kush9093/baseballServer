@@ -8,7 +8,7 @@ router.route("/")
         let {comment} = req.body
         console.log(req.body)
         try{
-        const responce = await reviewRouter.create({"comment":comment}).lean();
+        const responce = await reviewRouter.create({"comment":comment});
         console.log(responce)
         resp.status(200).json({result:true,datas:responce})
     } catch(e){
