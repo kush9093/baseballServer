@@ -22,8 +22,12 @@ router.get("/detail", async (req,resp)=>{
     const {pcode} = req.query;
     console.log(pcode);
     try {
+        if(pcode){
         const found = await Player.findOne({"pcode":pcode}).lean();
         resp.status(200).json({result:true,datas:found});
+    } else {
+        resp.status(500).json({result:false });
+    }
     } catch(e){
         console.log(e.message);
         resp.status(500).json({result:false });

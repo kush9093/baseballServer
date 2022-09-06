@@ -6,6 +6,7 @@ const Hitting = require("../model/hitting")
 router.get("/pitching",async (req,resp)=>{
     const {pcode} = req.query;
     try {
+        if(pcode){
         const found = await Pitching.find({pcode:pcode}).lean();
         const summary = {kk:0,l:0,sv:0,w:0};
         let er = 0;
@@ -39,6 +40,9 @@ router.get("/pitching",async (req,resp)=>{
         })
         summary["era"] = ((er*9)/innDisplay).toFixed(2);
         resp.status(200).json({result:true,summary:summary,datas:found})        // 중간에 계산도 필요 summary
+    } else {
+        resp.status(500).json({result:false});  
+    }
     } catch(e){
         console.log(e.message);
         resp.status(500).json({result:false});
@@ -49,6 +53,7 @@ router.get("/pitching",async (req,resp)=>{
 router.get("/hitting", async (req,resp)=>{
     const {pcode} = req.query;
     try {
+        if(pcode){
         const found = await Hitting.find({pcode:pcode}).lean();
         const summary = {gamenum:found.length,hit:0,hr:0,rbi:0,hra:0}
         let pa = 0;
@@ -61,6 +66,9 @@ router.get("/hitting", async (req,resp)=>{
         summary["hra"] = (summary.hit/pa).toFixed(3);
 
         resp.status(200).json({result:true,summary,datas:found})  // 중간에 계산도 필요 summary
+    } else {
+        resp.status(500).json({result:false});
+    }
     } catch(e){
         console.log(e.message);
         resp.status(500).json({result:false});

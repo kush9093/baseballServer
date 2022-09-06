@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
-    comment : String,
+    comment : {type:String,require:true},
     date: {type:Date,default: () => new Date()},
 });
 
